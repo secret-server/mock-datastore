@@ -1,0 +1,18 @@
+Kevin Kelche:
+  id: 1
+  name: KevinKelche
+  display_name: Kevin Kelche
+  email: kevin.kelche@example.com
+  password: bleach.out.34
+  roles:
+    - 0
+    - 2
+Jason Lang:
+  id: 2
+  name: JasonLang
+  display_name: Jason Lang
+  email: jason.lang@example.com
+  password: windows.frost6
+  roles:
+    - 1
+    

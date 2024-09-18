@@ -1,0 +1,15 @@
+data/
+*.mtl
+tmp/
+
+.air.toml
+
+*.exe
+*.prof
+*.svg
+.vscode
+*.wasm
+
+cert.pem
+key.pem
+mock-datastore.notes.txt

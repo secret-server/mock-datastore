@@ -1,0 +1,18 @@
+Admin:
+  name: Admin
+  id: 0
+  created: 2024-06-19T14:15:22Z
+  enabled: true
+  isSystem: false
+Ca Web Admin:
+  name: CA Web Admin
+  id: 1
+  created: 2024-06-19T14:15:22Z
+  enabled: true
+  isSystem: true
+Readonly:
+  name: Readonly
+  id: 2
+  created: 2024-06-19T14:15:22Z
+  enabled: true
+  isSystem: true
