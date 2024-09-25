@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/goccy/go-yaml"
@@ -105,26 +106,34 @@ func (fs FileStorage) GetSecrets() ([]Secret, error) {
 	return results, nil
 }
 
+// key to a specific user
 func (fs FileStorage) GetUser(searchText string) (User, error) {
-	// return fs.usersData[userIdName], nil
-	for index := range fs.userData {
-		if fs.userData[index].Name == searchText {
-			return fs.userData[index], nil
-		}
-		if fs.userData[index].DisplayName == searchText {
-			return fs.userData[index], nil
-		}
-		if fs.userData[index].Email == searchText {
-			return fs.userData[index], nil
+	for key, user := range fs.userData {
+		if user.Name == searchText || user.DisplayName == searchText || user.Email == searchText || key == searchText {
+			return user, nil
 		}
 	}
 	return User{}, fmt.Errorf("No user found for searchText=%s", searchText)
 }
 
+// search for all users
+func (fs FileStorage) UserLookup(searchText string) ([]User, error) {
+	ret := []User{};
+	for key, user := range fs.userData {
+		if strings.Contains(key, searchText) || 
+			strings.Contains(user.Name, searchText) || 
+			strings.Contains(user.DisplayName, searchText) || 
+			strings.Contains(user.Email, searchText) {
+            ret = append(ret, user)
+		}
+    }
+    return ret, nil;
+}
+
 func (fs FileStorage) GetUsers() ([]User, error) {
 	userArray := make([]User, 0, len(fs.userData))
-	for _, key := range fs.userData {
-		userArray = append(userArray, key)
+	for _, value := range fs.userData {
+		userArray = append(userArray, value)
 	}
 	return userArray, nil
 }

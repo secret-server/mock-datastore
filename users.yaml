@@ -15,4 +15,12 @@ Jason Lang:
   password: windows.frost6
   roles:
     - 1
+Mary Lang:
+  id: 2
+  name: MaryLang
+  display_name: Mary Lee Lang
+  email: mary.lang@example.com
+  password: holloween.ghost
+  roles:
+    - 1
     

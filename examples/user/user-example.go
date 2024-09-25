@@ -48,6 +48,14 @@ func main() {
 	fmt.Println("User.Email=", user.Email);
 	fmt.Println("User.Password=", user.Password);
 
+	fmt.Println("\r\n+-------------------------------------------------------------+");
+	lookupUser(db, "Lang");
+	lookupUser(db, "@example.com");
+	lookupUser(db, "Lee");
+	lookupUser(db, "MaryLang");
+	lookupUser(db, "Mary Lang");
+
+	fmt.Println("\r\n+-------------------------------------------------------------+");
 	fmt.Println("");
 	userEmail := "kevin.kelche@example.com";
 	fmt.Println("Look up vai email=", userEmail);
@@ -179,4 +187,18 @@ func main() {
 	fmt.Println("secret=", privateKeySecret.Name);
 	fmt.Println("\tsecret.passphrase=", privateKeySecret.Slug["private-key-passphrase"]);
 
+}
+
+func lookupUser(db datastore.Datastore, searchText string) bool {
+	fmt.Println("User lookup:",searchText)
+	users, err := db.UserLookup(searchText)
+	if err != nil {
+		fmt.Println("No user found for search=",searchText)
+		return true
+	}
+	for _, user := range users {
+		fmt.Println("\tUser.Name=", user.Name)
+	}
+	fmt.Println("")
+	return false
 }

@@ -13,6 +13,7 @@ type Datastore interface {
     AddUser(string, User) error
     UpdateUser(string, User) error
     DeleteUser(string) error
+    UserLookup(searchText string) ([]User, error)
 
     // role based operations
     GetRole(int) (Role, error)   
