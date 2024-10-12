@@ -16,7 +16,8 @@ type Datastore interface {
     UserLookup(searchText string) ([]User, error)
 
     // role based operations
-    GetRole(int) (Role, error)   
+    GetRole(int) (Role, error)
+    GetRoleByName(string) (Role, error)    
     GetRoles() ([]Role, error)
     CreateRole(string, bool) (Role, error) 
     UpdateRole(roleId int, name string, enabled bool)(Role, error) 

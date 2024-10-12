@@ -41,6 +41,16 @@ func main() {
 		return ;
     }
 
+	roleByName, _ := db.GetRoleByName("readonly");
+	fmt.Println("roleByName=", roleByName);
+
+	 _, err2 := db.GetRoleByName("something silly");
+	fmt.Println("roleByName err2=", err2);
+
+	 _, err3 := db.GetRoleByName("");
+	fmt.Println("roleByName err3=", err3);
+
+
 	var haveRoleId bool = db.DoesUserHaveRoleId(user, 0);
 	fmt.Println("haveRoleId=", haveRoleId);
 

@@ -198,6 +198,19 @@ func (fs FileStorage) GetRole(roleId int) (Role, error) {
 	return Role{}, fmt.Errorf("No Role found for roleId=%d", roleId)
 }
 
+func (fs *FileStorage) GetRoleByName(name string) (Role, error) {
+	if Empty(name) {
+		return Role{}, fmt.Errorf("Invalid name, name is an empty string")
+	}
+	for _, role := range fs.roleData {
+		if strings.EqualFold(role.Name, name) {
+			return role, nil
+		}
+	}
+	return Role{}, fmt.Errorf("No Role found for name=%s", name)
+}
+
+
 func (fs FileStorage) GetRoles() ([]Role, error) {
 	results := make([]Role, 0, len(fs.roleData))
 	for _, role := range fs.roleData {
