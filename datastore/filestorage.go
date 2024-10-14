@@ -23,6 +23,7 @@ type FileStorage struct {
 
 	secretsFilepath string
 	secretsData     map[string]Secret
+	secretsDataById map[int]Secret
 }
 
 // DoesUserHaveRoleId implements Datastore.
@@ -71,6 +72,11 @@ func New(filePath string) (*FileStorage, error) {
 	fileStorage.roleData = loadRole(fileStorage)
 	fileStorage.secretsData = loadSecret(fileStorage)
 
+	fileStorage.secretsDataById = make(map[int]Secret);
+	for _, value := range fileStorage.secretsData {
+		fileStorage.secretsDataById[value.ID] = value;
+    }
+
 	return fileStorage, nil
 }
 
@@ -96,6 +102,14 @@ func (fs *FileStorage) DeleteUser(string) error {
 
 func (fs FileStorage) GetSecret(roleId string) (Secret, error) {
 	return fs.secretsData[roleId], nil
+}
+
+func (fs FileStorage) GetSecretById(id int) (Secret, error) {
+	if(id <= 0) { 
+		return Secret{}, fmt.Errorf("Invalid id=%d", id)
+	}
+
+	return fs.secretsDataById[id], nil
 }
 
 func (fs FileStorage) GetSecrets() ([]Secret, error) {

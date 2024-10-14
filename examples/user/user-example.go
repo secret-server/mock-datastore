@@ -198,6 +198,17 @@ func main() {
 	dumpSearch(db, "50");
 	dumpSearch(db, "caReadonlyDatabase");
 
+		
+	fmt.Println("\r\nBy ID+-------------------------------------------------------------+");
+	byIdSecret, err := db.GetSecretById(90);
+    if err != nil {
+		fmt.Println("No secret found for GetSecretById=", "90");
+		return ;
+    }
+	fmt.Println("secret.id=", byIdSecret.ID);
+	fmt.Println("secret.name=", byIdSecret.Name);
+
+	
 	fmt.Println("\r\n+-------------------------------------------------------------+");
 	privateKeySecret, err := db.GetSecret("CA Private Key Passphrase");
     if err != nil {

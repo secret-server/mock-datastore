@@ -25,6 +25,7 @@ type Datastore interface {
 
     // secret based operations
     GetSecret(string) (Secret, error)
+    GetSecretById(int) (Secret, error)
     GetSecrets() ([]Secret, error)
     AddSecret(string, Secret) error
     UpdateSecret(string, Secret) error
