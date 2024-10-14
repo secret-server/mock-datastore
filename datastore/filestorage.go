@@ -26,34 +26,6 @@ type FileStorage struct {
 	secretsDataById map[int]Secret
 }
 
-// DoesUserHaveRoleId implements Datastore.
-func (fs *FileStorage) DoesUserHaveRoleId(user User, roleId int) bool {
-	if user.Roles != nil {
-		for _, role := range user.Roles {
-			if role == roleId {
-				return true;
-			}
-		}
-	}
-	return false
-}
-
-// DoesUserHaveRoleName implements Datastore.
-func (fs *FileStorage) DoesUserHaveRoleName(user User, roleName string) bool {
-	if user.Roles != nil {
-		for _, userRoleId := range user.Roles {
-			for _, role := range fs.roleData {
-				if role.ID == userRoleId {
-					if roleName == role.Name {
-						return true;
-					}
-					
-				}
-			}
-		}
-	}
-	return false;
-}
 
 func New(filePath string) (*FileStorage, error) {
 	log.Printf("FileStorage filePath=%s", filePath)
@@ -79,6 +51,7 @@ func New(filePath string) (*FileStorage, error) {
 
 	return fileStorage, nil
 }
+
 
 // AddSecret implements Datastore.
 func (fs *FileStorage) AddSecret(string, Secret) error {
@@ -129,6 +102,17 @@ func (fs FileStorage) GetUser(searchText string) (User, error) {
 	}
 	return User{}, fmt.Errorf("No user found for searchText=%s", searchText)
 }
+
+// key to a specific user
+func (fs FileStorage) GetUserById(id int) (User, error) {
+	for _, user := range fs.userData {
+		if user.ID == id {
+			return user, nil
+		}
+	}
+	return User{}, fmt.Errorf("No user found for ID=%d", id)
+}
+
 
 // search for all users
 func (fs FileStorage) UserLookup(searchText string) ([]User, error) {
@@ -312,6 +296,35 @@ func (fs *FileStorage) UpdateRole(roleId int, name string, enabled bool) (Role, 
 	fmt.Println("")
 	fs.savedRoles()
 	return roleUpdate, nil
+}
+
+// DoesUserHaveRoleId implements Datastore.
+func (fs *FileStorage) DoesUserHaveRoleId(user User, roleId int) bool {
+	if user.Roles != nil {
+		for _, role := range user.Roles {
+			if role == roleId {
+				return true;
+			}
+		}
+	}
+	return false
+}
+
+// DoesUserHaveRoleName implements Datastore.
+func (fs *FileStorage) DoesUserHaveRoleName(user User, roleName string) bool {
+	if user.Roles != nil {
+		for _, userRoleId := range user.Roles {
+			for _, role := range fs.roleData {
+				if role.ID == userRoleId {
+					if roleName == role.Name {
+						return true;
+					}
+					
+				}
+			}
+		}
+	}
+	return false;
 }
 
 func (fs *FileStorage) savedRoles() {

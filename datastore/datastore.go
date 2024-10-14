@@ -10,6 +10,7 @@ type Datastore interface {
     // user based operations
     GetUser(string) (User, error)
     GetUsers() ([]User, error)
+    GetUserById(int) (User, error)
     AddUser(string, User) error
     UpdateUser(string, User) error
     DeleteUser(string) error

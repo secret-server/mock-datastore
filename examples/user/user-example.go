@@ -69,7 +69,21 @@ func main() {
 	fmt.Println("User2.Email=", user2.Email);
 
 
+	fmt.Println("\r\n+-------------------------------------------------------------+");
+	userById, err := db.GetUserById(3);
+    if err != nil {
+		fmt.Println("No user found for id=3");
+		return ;
+    }
+	fmt.Println("userById=3, Name=", userById.Name);
 	fmt.Println("");
+
+	userById, err = db.GetUserById(4);
+    if err != nil {
+		fmt.Println("No user found for id=4");
+    }
+
+	fmt.Println("\r\n+-------------------------------------------------------------+");
 	users, err := db.GetUsers();
     if err != nil {
 		fmt.Println("No users found");
