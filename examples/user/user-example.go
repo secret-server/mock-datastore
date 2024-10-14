@@ -179,6 +179,26 @@ func main() {
 	fmt.Println("\tsecret.password=", secret.Slug["password"]);
 
 	fmt.Println("\r\n+-------------------------------------------------------------+");
+	secretsLookup, err := db.SecretLookup("CA Database");
+	if err != nil {
+		fmt.Println("No secret found for key=", "CA Database");
+		return ;
+	}
+	fmt.Println("secretsLookup count=", len(secretsLookup));
+	for  _, secret := range secretsLookup {
+		fmt.Println("secret.ID=", secret.ID);
+		fmt.Println("secret.Name=", secret.Name);
+		fmt.Println("\tsecret.server=", secret.Slug["server"]);
+		fmt.Println("\tsecret.user=", secret.Slug["user"]);
+		fmt.Println("\tsecret.password=", secret.Slug["password"]);
+	}
+	
+	dumpSearch(db, "192.168.10.131");
+	dumpSearch(db, "admin");
+	dumpSearch(db, "50");
+	dumpSearch(db, "caReadonlyDatabase");
+
+	fmt.Println("\r\n+-------------------------------------------------------------+");
 	privateKeySecret, err := db.GetSecret("CA Private Key Passphrase");
     if err != nil {
 		fmt.Println("No secret found for key=", "caDatabase");
@@ -187,6 +207,24 @@ func main() {
 	fmt.Println("secret=", privateKeySecret.Name);
 	fmt.Println("\tsecret.passphrase=", privateKeySecret.Slug["private-key-passphrase"]);
 
+}
+
+
+func dumpSearch(db datastore.Datastore, searchText string)  {
+	fmt.Println("\r\n+-------------------------------------------------------------+");
+	fmt.Println("search for:", searchText);
+	secretsLookup2, err := db.SecretLookup(searchText)
+	if err != nil {
+		fmt.Println("No secret found for key=",searchText)
+	}
+	fmt.Printf("%s count=%d", searchText, len(secretsLookup2))
+	for _, secret := range secretsLookup2 {
+		fmt.Println("secret.ID=", secret.ID)
+		fmt.Println("secret.Name=", secret.Name)
+		fmt.Println("\tsecret.server=", secret.Slug["server"])
+		fmt.Println("\tsecret.user=", secret.Slug["user"])
+		fmt.Println("\tsecret.password=", secret.Slug["password"])
+	}
 }
 
 func lookupUser(db datastore.Datastore, searchText string) bool {

@@ -21,6 +21,7 @@ type Datastore interface {
     GetRoles() ([]Role, error)
     CreateRole(string, bool) (Role, error) 
     UpdateRole(roleId int, name string, enabled bool)(Role, error) 
+    RoleLookup(searchText string) ([]Role, error)
 
     // secret based operations
     GetSecret(string) (Secret, error)
@@ -28,7 +29,8 @@ type Datastore interface {
     AddSecret(string, Secret) error
     UpdateSecret(string, Secret) error
     DeleteSecret(string) error
-
+    SecretLookup(searchText string) ([]Secret, error)
+    
     DoesUserHaveRoleId(User, int) (bool)
 	DoesUserHaveRoleName(User, string) (bool)
 }

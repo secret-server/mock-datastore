@@ -130,6 +130,41 @@ func (fs FileStorage) UserLookup(searchText string) ([]User, error) {
     return ret, nil;
 }
 
+func (fs FileStorage) RoleLookup(searchText string) ([]Role, error) {
+	ret := []Role{};
+	for key, role := range fs.roleData {
+		if strings.Contains(key, searchText) || 
+			strings.Contains(role.Name, searchText) || 
+			strings.Contains(strconv.Itoa(role.ID), searchText) {
+            ret = append(ret, role)
+		}
+    }
+    return ret, nil;
+}
+
+func (fs FileStorage) SecretLookup(searchText string) ([]Secret, error) {
+	ret := []Secret{};
+	for key, secret := range fs.secretsData {
+		// check basic fields
+		if strings.Contains(key, searchText) || 
+			strings.Contains(secret.Name, searchText) || 
+			strings.Contains(strconv.Itoa(secret.ID), searchText) {
+            ret = append(ret, secret)
+			continue;
+		}
+		// check slugs
+		for k, v := range secret.Slug {
+			if strings.Contains(k, searchText) || strings.Contains(v, searchText)  {
+            	ret = append(ret, secret);
+				break;
+			}
+		}
+			
+    }
+    return ret, nil;
+}
+
+
 func (fs FileStorage) GetUsers() ([]User, error) {
 	userArray := make([]User, 0, len(fs.userData))
 	for _, value := range fs.userData {
